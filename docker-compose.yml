@@ -1,0 +1,16 @@
+version: '3'
+services:
+    node1 :
+        build: .
+        container_name: node1
+        ports:
+        - "8545:8545"
+        volumes:
+        - .:/home/ethuser
+    node2 :
+        build: .
+        container_name: node2
+        ports:
+            - "8546:8546"
+        volumes:
+            - .:/home/ethuser

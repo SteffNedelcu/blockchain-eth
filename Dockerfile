@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 LABEL version="1.0"
-LABEL maintainer="shindu666@gmail.com"
+LABEL maintainer="nedelcu.stefandaniel@gmail.com"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -21,12 +21,9 @@ COPY scripts /home/ethuser/scripts
 RUN chown -R ethuser:ethuser /home/ethuser/ethdata
 RUN chown -R ethuser:ethuser /home/ethuser/scripts
 
-
-
 USER ethuser
 
 WORKDIR /home/ethuser
-
 
 RUN echo 'dos2unix /home/ethuser/scripts/makeunix.sh' 
 ENTRYPOINT bash

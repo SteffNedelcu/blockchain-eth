@@ -1,4 +1,4 @@
-pragma solidity ^0.6.4;
+pragma solidity ^0.4.18;
 contract Owned {
     address public owner;    
     constructor() public {
@@ -22,28 +22,48 @@ contract Roles {
     creator = msg.sender;
   }
   
-  function assignRole (address entity, string memory role) public hasRole('superadmin')   {
+  function assignRole (address entity, string memory role) hasRole('superadmin') public  {
     roles[entity][role] = true;
   }
   
-  function unassignRole (address entity, string memory role) public hasRole('superadmin')   {
+  function unassignRole (address entity, string memory role) hasRole('superadmin') public  {
     roles[entity][role] = false;
   }
   
-  function isAssignedRole (address entity, string memory role) public returns (bool)   {
+  function isAssignedRole (address entity, string memory role) public view returns (bool)   {
     return roles[entity][role];
   }
-  
+  function fcnHasRole(string memory _role) public view returns(bool){
+      if(roles[msg.sender][_role]){
+          return true;
+      }else{
+          return false;
+      }
+  }
+  function checkRole(string memory _role) public view returns(string memory){
+      if(roles[msg.sender][_role]){
+          return "DA";
+      }else{
+          return "NU";
+      }
+  }
   modifier hasRole (string memory role) {
     assert(roles[msg.sender][role] || msg.sender == creator);
     _;
   }
 }
-contract Presciption is Owned {
+contract Presciption is Owned{
     address pacient;
     Roles roles;
     enum State { Created, Locked, Done }
     State public state;
+    
+    constructor(address rolesAddress, address _pacient) public {
+        roles = Roles(rolesAddress); 
+        state = State.Created;
+        pacient = _pacient;
+    }
+    
     
     struct Drug {
         string code;
@@ -59,15 +79,18 @@ contract Presciption is Owned {
         _;
     }
     
+    modifier isMedic(){
+         assert(roles.fcnHasRole('medic'));
+         _;
+    }
+    modifier isFarmacist(){
+         assert(roles.fcnHasRole('farmacist'));
+         _;
+    }
     mapping (uint => Drug) drugs;
     
-    constructor(address rolesAddress, address _pacient) public {
-        roles = Roles(rolesAddress); 
-        state = State.Created;
-        pacient = _pacient;
-    }
-    
-    function newDrug(string calldata _code, uint _quantity) external onlyOwner returns(uint) {
+
+    function newDrug(string _code, uint _quantity) external onlyOwner returns(uint) {
         uint drugID = numDrugs++;
         drugs[drugID] = Drug(_code, _quantity);
     }
@@ -77,7 +100,11 @@ contract Presciption is Owned {
     function getDrug(uint _drugID) public view returns(string memory, uint){
         return (drugs[_drugID].code,drugs[_drugID].quantity );
     }
-    function closePrescription() public {
+    function sendPrescription() public isMedic() {
+       
+        state = State.Locked;
+    }
+    function closePrescription() public isFarmacist(){
         state = State.Done;
     }
     

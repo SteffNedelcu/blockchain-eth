@@ -3,9 +3,9 @@
 ### Create new account
 ``` ./scripts/create_account.sh ```
 ### List accounts
-``` geth --datadir ~/eth_common/ account list ```
+``` geth --datadir ~/ethdata/ account list ```
 ### Init genesis block
-``` dos2unix eth_common/genesis.json && ./scripts/init.sh ```
+``` dos2unix ethdata/genesis.json &&  dos2unix ./scripts/init.sh && sudo chmod +x scripts/init.sh  && ./scripts/init.sh ```
 ### Connect to node
 ``` ./scripts/start_node.sh xxxxxxxx ```
 
@@ -36,7 +36,7 @@ geth --identity="NODE_TWO" --networkid="500" --verbosity=1 --mine --minerthreads
 
 ### make transaction
 
-``` eth.sendTransaction({from:"0xc48ae33f357c9d0ed99d5632267c35ca061e66af", to: "0x44a85fca07826432072b48b9607014c2a38078cf", value: web3.toWei(0.0001,"ether"),data:"" }); ```
+``` eth.sendTransaction({from:"0x40593976caa7987996cf97368ec2dbf76e40ae54", to: "0x66990df685a49580e671d1114252f5c60171490c", value: web3.toWei(0.0001,"ether"),data:"" }); ```
 
 ### start miner
 
@@ -46,17 +46,16 @@ geth --identity="NODE_TWO" --networkid="500" --verbosity=1 --mine --minerthreads
 ``` miner.stop() ```
 
 
-`  geth  --networkid 4088  --identity="NODE_ONE" --nodiscover console --unlock 4e4d04aef11fbe55172c7f845640e80372e15c29 --rpc --rpcport "8545" --rpcaddr "0.0.0.0" --rpccorsdomain "*" --rpcapi "eth,net,web3,miner,debug,personal,rpc" --allow-insecure-unlock`
+`geth --datadir="ethdata" --networkid 15 --nodiscover console --unlock 40593976caa7987996cf97368ec2dbf76e40ae54 --rpc --rpcport "8000" --rpcaddr "0.0.0.0" --rpccorsdomain "*" --rpcapi "eth,net,web3,miner,debug,personal,rpc" --allow-insecure-unlock`
+
+"enode://e655b2ce94fe040d14ff48373fed649d543c3ea584ea2523511007f8b7d01b4711a06d63015782bd46ae2d86c2ca3a4a2831e5499008c46f5e80c81d1c50e051@192.168.100.141:30303"
 
 
-`  geth  --networkid 4088  --identity="NODE_TWO" --nodiscover console --unlock de8d814ccb3772d513e9ab381d3ae8304307bbaa --rpc --rpcport "8546" --rpcaddr "0.0.0.0" --rpccorsdomain "*" --rpcapi "eth,net,web3,miner,debug,personal,rpc" --allow-insecure-unlock`
+`geth --datadir="ethdata" --networkid 15 --nodiscover console --unlock 66990df685a49580e671d1114252f5c60171490c --rpc --rpcport "8000" --rpcaddr "0.0.0.0" --rpccorsdomain "*" --rpcapi "eth,net,web3,miner,debug,personal,rpc" --allow-insecure-unlock`
 
+"enode://cdbd6242efaa218e4b09d73fc03160fe6a4c93cae7b55b558bf9ae75c2355a773b023852b8c3af13d026aad30268794f6e215421c98d5467e509848f7aad4ffd@192.168.100.142:30303"
 
-`geth --identity="NODE_ONE" --networkid="500" --verbosity=1 --mine --minerthreads=1 --rpc --rpcaddr 0.0.0.0 console`
-
-
-`geth --identity="NODE_TWO" --networkid="500" --verbosity=1 --mine --minerthreads=1 --rpc -rpcport "8546" --rpcaddr 0.0.0.0 console`
-
+geth --datadir="ethdata" --networkid 15 --nodiscover console --unlock 66990df685a49580e671d1114252f5c60171490c --rpc --rpcport "8000" --rpcaddr "0.0.0.0" --rpccorsdomain "*" --rpcapi "eth,net,web3,miner,debug,personal,rpc"
 
 ```
 web3.fromWei(eth.getBalance(eth.coinbase), "ether")

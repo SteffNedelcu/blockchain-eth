@@ -7,10 +7,10 @@
           "eip158Block": 0
       },
     "alloc"      : {
-        "acbbd6952f7ed4adebfa8f51ee611e80a743b724":{
+        "ddcf51e3d0f4e568ccf1fc5e9596220f552dbce0":{
             "balance":"11111111111111111111111111111111"
         },
-        "3364a450b75c3517eb0d131e3d2f66f43e33537f":{
+        "fddb58c03b0b1e14dfe0271a6476ecabd48d48c2":{
             "balance":"211111111111111111111111111111111"
         }
 

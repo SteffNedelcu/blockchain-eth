@@ -14,20 +14,20 @@ RUN apt install -y vim
 RUN apt install -y sudo
 RUN npm install -g ganache-cli
 
-RUN adduser --disabled-login --gecos "" eth_user
+RUN adduser --disabled-login --gecos "" ethuser
 
-COPY eth_common /home/eth_user/eth_common
-COPY scripts /home/eth_user/scripts
-RUN chown -R eth_user:eth_user /home/eth_user/eth_common
-RUN chown -R eth_user:eth_user /home/eth_user/scripts
-
-
-
-USER eth_user
-
-WORKDIR /home/eth_user
+COPY ethdata /home/ethuser/ethdata
+COPY scripts /home/ethuser/scripts
+RUN chown -R ethuser:ethuser /home/ethuser/ethdata
+RUN chown -R ethuser:ethuser /home/ethuser/scripts
 
 
-RUN echo 'dos2unix /home/eth_user/scripts/makeunix.sh' 
+
+USER ethuser
+
+WORKDIR /home/ethuser
+
+
+RUN echo 'dos2unix /home/ethuser/scripts/makeunix.sh' 
 ENTRYPOINT bash
-VOLUME ["/home/eth_user/eth_common"]
+VOLUME ["/home/ethuser/ethdata"]

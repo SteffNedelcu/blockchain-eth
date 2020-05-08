@@ -80,11 +80,11 @@ contract Presciption is Owned{
     }
     
     modifier isMedic(){
-         assert(roles.fcnHasRole('medic'));
+         assert(roles.isAssignedRole(msg.sender,"medic"));
          _;
     }
     modifier isFarmacist(){
-         assert(roles.fcnHasRole('farmacist'));
+         assert(roles.isAssignedRole(msg.sender,"farmacist"));
          _;
     }
     mapping (uint => Drug) drugs;
@@ -100,13 +100,14 @@ contract Presciption is Owned{
     function getDrug(uint _drugID) public view returns(string memory, uint){
         return (drugs[_drugID].code,drugs[_drugID].quantity );
     }
-    function sendPrescription() public isMedic() {
+    function sendPrescription() public isMedic{
        
         state = State.Locked;
     }
-    function closePrescription() public isFarmacist(){
+    function closePrescription() public isFarmacist{
         state = State.Done;
     }
-    
-      
+    function getUserRole() public view returns(bool){
+        return roles.isAssignedRole(msg.sender,"medic");
+    }
 }
